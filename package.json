@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "test": "Exit code 0",
+    "start": "node backend/index.js"
+  },
 
   "repository": {
     "type": "git",
