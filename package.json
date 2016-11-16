@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"All is ok, no test specified\" && exit 0",
-    "start": "node backend/index.js"
+    "start": "node backend/index.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
