@@ -6,14 +6,14 @@
 
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Maryna-Yelakova/Comments.git"
+    "url": "git+https://github.com/Maryna-Yelakova/comments-task.git"
   },
   "author": "Maryna Yelakova",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Maryna-Yelakova/Comments/issues"
+    "url": "https://github.com/Maryna-Yelakova/comments-task/issues"
   },
-  "homepage": "https://github.com/Maryna-Yelakova/Comments#readme",
+  "homepage": "https://github.com/Maryna-Yelakova/comments-task#readme",
   "dependencies": {
     "bower": "^1.8.0"
   }
