@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "Exit code 0",
+    "test": "echo \"All is ok, no test specified\" && exit 0",
     "start": "node backend/index.js"
   },
 
