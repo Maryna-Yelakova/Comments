@@ -1,8 +1,7 @@
 (function() {
-    'use strict';
-    angular.module('com').controller('com.commentsCtrl',['$scope','flashService', commentsCtrl]);
-
-    function commentsCtrl($scope, flashService){
+    'use strict';     
+    angular.module('com').controller('com.commentsCtrl',['$scope','flashService','commentList', commentsCtrl]);
+    function commentsCtrl($scope, flashService,commentList){
         $scope.username = /^[a-zA-Z0-9\s]{3,50}$/;
         $scope.useremail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         $scope.usercomment = /\w+/;
@@ -29,29 +28,7 @@
                 flashService.clearFlashMessage();
             }
         };
-        $scope.comments = [
-            {
-                name: 'Alex',
-                email: 'alex@gmail.com',
-                baseurl: 'localhost',
-                text: 'hello world'
-            },
-            {
-                name: 'Piter',
-                email: 'piter@gmail.com',
-                baseurl: 'localhost',
-                text: 'lorem ipsum'
-            }
-        ];
-        
-        $scope.saveComment = function (){
-            $scope.comments.push({
-                name: $scope.name,
-                email: $scope.email,
-                baseurl: $scope.baseurl,
-                text: $scope.text
 
-        })};
-
+        $scope.comments = commentList.data;
     }
 })();
