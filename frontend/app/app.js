@@ -1,4 +1,4 @@
 (function() {
-    angular.module('com', []);
+    angular.module('com', ["ngRoute"]);
 })();
 
