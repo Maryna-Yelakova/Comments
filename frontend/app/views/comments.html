@@ -9,12 +9,12 @@
                 <div>
                     {{comment.name}}
                     {{comment.email}}
+                    {{comment.comment}}
                     {{comment.date | date : format : timezone}}
-                    {{comment.text}}
                 </div>
             </li>
         </ul>
-        <form method="post" name="commentForm" ng-submit="addComment()" role="form">
+        <form method="post" name="commentForm" ng-submit="addComment()" ng-class=""  role="form">
             <legend>
                 Your comment
             </legend>
@@ -24,25 +24,25 @@
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.name.$invalid && commentForm.name.$dirty }">
                 <label>
                     Name:
-                    <input ng-pattern="username" watch-change="checkName()" class="form-control" ng-model='name' name ="name" type='text' required autofocus>
+                    <input ng-pattern="username" watch-change="checkName()" class="form-control" ng-model='createComment.name' name ="name" type='text' required autofocus>
                 </label>
             </div>
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.email.$invalid && commentForm.email.$dirty }">
                 <label>
                     E-mail:
-                    <input ng-pattern="useremail" watch-change="checkEmail()" class="form-control" ng-model='email' name="email" type='email' required>
+                    <input ng-pattern="useremail" watch-change="checkEmail()" class="form-control" ng-model='createComment.email' name="email" type='email' required>
                 </label>
             </div>
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
                 <label>
                     Homepage:
-                    <input ng-pattern="userurl"  class="form-control" name="baseurl" ng-model="baseurl">
+                    <input ng-pattern="userurl"  class="form-control" name="baseurl" ng-model="createComment.baseurl">
                 </label>
             </div>
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
                 <label>
                     Comment:
-                    <textarea ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="text" required></textarea>
+                    <textarea ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
                 </label>
             </div>
             <div>
