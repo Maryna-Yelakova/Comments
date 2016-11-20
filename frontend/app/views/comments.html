@@ -14,6 +14,13 @@
                 </div>
             </li>
         </ul>
+        <div id="pagination" class="row">
+            <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="goToFirstPage()">Start</button>
+            <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="pageBack()">Back</button>
+            <span>{{currentPage}} of {{lastPageNum}}</span>
+            <button class="btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="pageForward()">Next</button>
+            <button class="btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="goToLastPage()">End</button>
+        </div>
         <form method="post" name="commentForm" ng-submit="addComment()" ng-class=""  role="form">
             <legend>
                 Your comment

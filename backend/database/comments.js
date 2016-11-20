@@ -1,7 +1,9 @@
 var db = require("./connection");
 var comments = function() {
-    this.getComments = function () {
-         return db.query("select * from comments order by string_to_array(path::text,'.')::integer[];");
+    this.getComments = function (page) {
+        var commentsOnPage = 5;
+         var selectedPage = (page-1)*commentsOnPage;
+            return db.query("select * from comments order by string_to_array(path::text,'.')::integer[] offset " + selectedPage + " limit " + commentsOnPage +";");
      };
     this.saveComment = function(newComment){
         var querytext = 'DO LANGUAGE plpgsql $$\n\ ' +
@@ -27,6 +29,9 @@ var comments = function() {
             '\tEND;\n\ '+
         '$$;';
         return db.query(querytext);
+    };
+    this.getCommentsNumber = function(){
+        return db.query("select count(*) from comments;");
     }
 };
 module.exports = comments;
