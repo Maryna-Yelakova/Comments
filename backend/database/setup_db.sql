@@ -6,7 +6,7 @@ create table "comments"(
   "id" serial primary key,
   "path" ltree,
   "name" varchar not null,
-  "email" varchar unique not null,
+  "email" varchar not null,
   "date" timestamp,
   "baseurl" varchar,
   "comment" varchar not null,

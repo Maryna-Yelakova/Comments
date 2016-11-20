@@ -1,6 +1,20 @@
 <div class="panel-body">
     <div class="left-form panel">
-        <form method="post" name="commentForm" ng-submit="saveComment()" role="form">
+        <h3>
+            {{comments.length}} Comments
+        </h3>
+        <ul>
+            <li ng-repeat="comment in comments track by $index">
+                <!--<li ng-repeat="comment in comments" ng-include="'comment-tree'">-->
+                <div>
+                    {{comment.name}}
+                    {{comment.email}}
+                    {{comment.date | date : format : timezone}}
+                    {{comment.text}}
+                </div>
+            </li>
+        </ul>
+        <form method="post" name="commentForm" ng-submit="addComment()" role="form">
             <legend>
                 Your comment
             </legend>
@@ -36,19 +50,5 @@
                 </button>
             </div>
         </form>
-        <h3>
-            {{comments.length}} Comments
-        </h3>
-        <ul>
-            <li ng-repeat="comment in comments track by $index">
-                <!--<li ng-repeat="comment in comments" ng-include="'comment-tree'">-->
-                <div>
-                    {{comment.name}}
-                    {{comment.email}}
-                    {{comment.date | date : format : timezone}}
-                    {{comment.text}}
-                </div>
-            </li>
-        </ul>
-    </div>
+     </div>
 </div>

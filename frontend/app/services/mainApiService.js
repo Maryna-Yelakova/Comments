@@ -9,9 +9,11 @@
             return $http({
                 method: 'GET',
                 url: baseUrl + url + '/'
-
             });
         };
+        this.post = function (url,data){
+            return $http.post(baseUrl + url + '/', data);
+        }
     }
     mainApiService.$inject = ["$http", "baseUrl"];
 
