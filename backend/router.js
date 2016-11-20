@@ -11,7 +11,16 @@ var router = {
                 res.status(500).send(error);
             });
         });
-        app.get('*', function(req, res) {
+
+        app.post(apiPreff + "/comment", function (req, res) {
+            comments.saveComment(Object.assign({}, req.body, req.params)).then(function (data) {
+                res.status(200).send(data);
+            }).catch(function (error) {
+                res.status(500).send(error);
+            });
+        });
+        
+        app.get('*', function (req, res) {
             res.status(200).sendFile(path.resolve('frontend/app/index.html'));
         });
 
