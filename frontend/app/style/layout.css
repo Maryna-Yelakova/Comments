@@ -15,5 +15,9 @@ form, h3, ul {
 footer {
     color: white;
 }
+#pagination {
+    text-align: center;
+}
+
 
 

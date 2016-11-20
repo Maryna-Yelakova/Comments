@@ -7,7 +7,10 @@
                 controller: "com.commentsCtrl",
                 resolve: {
                     commentList: ["comments-list-service", function(commentsService) {
-                        return commentsService.getComments();
+                        return commentsService.getComments(1);
+                    }],
+                    numberOfComments: ["comments-list-service", function(commentsService) {
+                        return commentsService.getCommentsNumber();
                     }]
                 }
             })
