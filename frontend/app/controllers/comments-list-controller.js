@@ -33,22 +33,17 @@
         };
 
         $scope.comments = commentList.data;
+        $scope.createComment = {};
 
         $scope.addComment = function(){
-            var newComment = {
-                name:$scope.name,
-                email:$scope.email,
-                baseurl:$scope.baseurl,
-                text:$scope.text,
-                ip: '',
-                browser:''
-            };
+            var newComment = $scope.createComment;
             commentsService.saveComment(newComment).then(function () {
                 $scope.getAllComments().then(function(response){
                      $scope.comments = response.data;
+                     $scope.createComment={};
+                     $scope.commentForm.$setPristine();
                 });
-            })
-       
+            });
         }
     }
 })();
