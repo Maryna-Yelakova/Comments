@@ -3,8 +3,10 @@
         <h3>
             {{comments.length}} Comments
         </h3>
-        <ul>
-            <li ng-repeat="comment in comments track by $index" >
+            <div>
+            <div ng-class="{'tab1':comment.array_length === 1, 'tab2': comment.array_length === 2,
+                                'tab3':comment.array_length === 3,'tab4':comment.array_length === 4,
+                                'tab5':comment.array_length === 5,'tab6':comment.array_length === 6}" ng-repeat="comment in comments track by $index">
                 <div>
                     {{comment.name}}
                     {{comment.email}}
@@ -53,8 +55,8 @@
                         </div>
                     </form>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
         <div id="pagination" class="row">
             <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="goToFirstPage()">Start</button>
             <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="pageBack()">Back</button>

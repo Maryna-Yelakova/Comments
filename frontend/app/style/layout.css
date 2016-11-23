@@ -18,8 +18,23 @@ footer {
 #pagination {
     text-align: center;
 }
-li {
-
+.tab1 {
+    margin-left: 20px;
+}
+.tab2 {
+    margin-left: 60px;
+}
+.tab3 {
+    margin-left: 100px;
+}
+.tab4 {
+    margin-left: 140px;
+}
+.tab5 {
+    margin-left: 160px;
+}
+.tab6 {
+    margin-left: 200px;
 }
 
 
