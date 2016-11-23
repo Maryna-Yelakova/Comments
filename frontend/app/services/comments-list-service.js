@@ -10,7 +10,11 @@
         };
         this.getCommentsNumber = function(){
             return mainApiService.get('commentsnumber')
+        };
+        this.addEnclosedComments = function(id,data){
+            return mainApiService.post('answer/' + id, data)
         }
+
 
     }
     commentsService.$inject = ["com.mainApiService"];
