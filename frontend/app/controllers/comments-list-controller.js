@@ -92,6 +92,29 @@
                 $scope.lastPageNum = maxPageNum;
             }
         };
+        $scope.cancelAnswer = function(){
+            $scope.createAnswer = {id: -1};
+        };
+        $scope.showAnswerForm = function (commentId){
+            $scope.createAnswer = {id:commentId};
+        };
+        $scope.addAnswer = function (parrentId){
+            var newComment = $scope.createAnswer;
+            console.log(newComment);
+            console.log(parrentId);
+            commentsService.addEnclosedComments(parrentId,newComment).then(function(){
+                 console.log(parrentId);
+                $scope.getCommentsByPage($scope.currentPage).then(function(response){
+                    $scope.comments = response.data;
+                    console.log($scope.comments);
+                    $scope.updateCommentsCount();
+                    $scope.createAnswer = {};
+                    console.log(newComment);
+                    $scope.commentForm.$setPristine();
+                    
+                });
+            })
+        };
         $scope.comments = commentList.data;
         $scope.createComment = {};
         $scope.numberComments = numberOfComments.data[0].count;
