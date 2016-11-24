@@ -5,14 +5,14 @@
         $scope.username = /^[a-zA-Z0-9\s]{3,50}$/;
         $scope.useremail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         $scope.usercomment = /\w+/;
-        $scope.checkName = function() {
+        $scope.checkName = function(localscope) {
             if ($scope.commentForm.name.$invalid) {
+                console.log(localscope);
                 flashService.error('Only latin symbols and  numbers length between 3 and 50', false);
             } else {
                 flashService.clearFlashMessage();
             }
         };
-
         $scope.checkEmail = function() {
             if ($scope.commentForm.email.$invalid) {
                 flashService.error('Please, enter valid email', false);
@@ -20,7 +20,6 @@
                 flashService.clearFlashMessage();
             }
         };
-
         $scope.checkText = function() {
             if ($scope.commentForm.text.$invalid) {
                 flashService.error('Please, type your comment', false);
@@ -28,10 +27,10 @@
                 flashService.clearFlashMessage();
             }
         };
+        
         $scope.getCommentsByPage = function(page){
             return commentsService.getComments(page);
         };
-
 
         $scope.firstPage = function() {
             return $scope.currentPage == 1;
@@ -100,16 +99,11 @@
         };
         $scope.addAnswer = function (parrentId){
             var newComment = $scope.createAnswer;
-            console.log(newComment);
-            console.log(parrentId);
             commentsService.addEnclosedComments(parrentId,newComment).then(function(){
-                 console.log(parrentId);
                 $scope.getCommentsByPage($scope.currentPage).then(function(response){
                     $scope.comments = response.data;
-                    console.log($scope.comments);
                     $scope.updateCommentsCount();
                     $scope.createAnswer = {};
-                    console.log(newComment);
                     $scope.commentForm.$setPristine();
                     
                 });
