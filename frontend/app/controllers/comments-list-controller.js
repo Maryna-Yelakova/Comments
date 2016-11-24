@@ -12,7 +12,6 @@
                 flashService.clearFlashMessage();
             }
         };
-
         $scope.checkEmail = function() {
             if ($scope.commentForm.email.$invalid) {
                 flashService.error('Please, enter valid email', false);
@@ -20,7 +19,6 @@
                 flashService.clearFlashMessage();
             }
         };
-
         $scope.checkText = function() {
             if ($scope.commentForm.text.$invalid) {
                 flashService.error('Please, type your comment', false);
@@ -28,10 +26,10 @@
                 flashService.clearFlashMessage();
             }
         };
+
         $scope.getCommentsByPage = function(page){
             return commentsService.getComments(page);
         };
-
 
         $scope.firstPage = function() {
             return $scope.currentPage == 1;
@@ -100,16 +98,11 @@
         };
         $scope.addAnswer = function (parrentId){
             var newComment = $scope.createAnswer;
-            console.log(newComment);
-            console.log(parrentId);
             commentsService.addEnclosedComments(parrentId,newComment).then(function(){
-                 console.log(parrentId);
                 $scope.getCommentsByPage($scope.currentPage).then(function(response){
                     $scope.comments = response.data;
-                    console.log($scope.comments);
                     $scope.updateCommentsCount();
                     $scope.createAnswer = {};
-                    console.log(newComment);
                     $scope.commentForm.$setPristine();
                     
                 });

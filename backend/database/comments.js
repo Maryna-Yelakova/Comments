@@ -3,7 +3,8 @@ var comments = function() {
     this.getComments = function (page) {
         var commentsOnPage = 5;
          var selectedPage = (page-1)*commentsOnPage;
-            return db.query("select * from comments order by string_to_array(path::text,'.')::integer[] offset " + selectedPage + " limit " + commentsOnPage +";");
+            return db.query('select \"id\",\"name\",\"email\",\"date\",\"baseurl\",\ ' +
+                '\"comment\", array_length(string_to_array(path::text,\'.\'), 1) from comments order by string_to_array(path::text,\'.\')::integer[] offset ' + selectedPage + ' limit ' + commentsOnPage +';');
      };
     this.saveComment = function(newComment){
         var querytext = 'DO LANGUAGE plpgsql $$\n\ ' +

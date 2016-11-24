@@ -3,58 +3,67 @@
         <h3>
             {{comments.length}} Comments
         </h3>
-        <ul>
-            <li ng-repeat="comment in comments track by $index" >
-                <div>
-                    {{comment.name}}
-                    {{comment.email}}
-                    <br/>
-                    {{comment.comment}}
-                    {{comment.date | date : format : timezone}}
-                    <br/>
-                    <button class="btn btn-success btn-xs"  ng-click="showAnswerForm(comment.id)"> Add answer
-                    </button>
-                    <form  ng-show="comment.id === createAnswer.id" method="post" name="answerForm" ng-submit="addAnswer(comment.id)"   role="form">
-                        <legend>
-                            Your answer
-                        </legend>
-                        <div class="col-sm-10 ">
-                            <div ng-class="{ 'alert': flash, 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
-                        </div>
-                        <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.name.$invalid && answerForm.name.$dirty }">
-                            <label>
-                                Name:
-                                <input ng-pattern="username" watch-change="checkName()" class="form-control" ng-model='createAnswer.name' name ="name" type='text' required autofocus>
-                            </label>
-                        </div>
-                        <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.email.$invalid && answerForm.email.$dirty }">
-                            <label>
-                                E-mail:
-                                <input ng-pattern="useremail" watch-change="checkEmail()" class="form-control" ng-model='createAnswer.email' name="email" type='email' required>
-                            </label>
-                        </div>
-                        <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty }">
-                            <label>
-                                Homepage:
-                                <input ng-pattern="userurl"  class="form-control" name="baseurl" ng-model="createAnswer.baseurl">
-                            </label>
-                        </div>
-                        <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty }">
-                            <label>
-                                Comment:
-                                <textarea ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
-                            </label>
-                        </div>
-                        <div>
-                            <button ng-disabled="answerForm.$invalid" class=" btn btn-success"  type='submit'> Add answer
-                            </button>
-                            <button  ng-click="cancelAnswer()" ng-show="comment.id === createAnswer.id" type="button" class="btn btn-warning glyphicon glyphicon-remove"></button>
-
-                        </div>
-                    </form>
+        <div ng-class="{'tab1':comment.array_length === 1,'tab2': comment.array_length === 2,
+                        'tab3':comment.array_length === 3,'tab4':comment.array_length === 4,
+                        'tab5':comment.array_length === 5,'tab6':comment.array_length >= 6}" ng-repeat="comment in comments track by $index">
+            {{comment.name}}
+            {{comment.email}}
+            <br/>
+            {{comment.comment}}
+            {{comment.date | date : format : timezone}}
+            <br/>
+            <button class="btn btn-success btn-xs"  ng-click="showAnswerForm(comment.id)"> Add answer
+            </button>
+            <form  ng-show="comment.id === createAnswer.id" method="post" name="answerForm" ng-submit="addAnswer(comment.id)"   role="form">
+                <legend>
+                    Your answer
+                </legend>
+                <div ng-messages="answerForm.name.$error" ng-if="answerForm.name.$dirty">
+                    <div ng-message="required"></div>
+                    <div ng-message="pattern">Only latin symbols and  numbers length between 3 and 50</div>
                 </div>
-            </li>
-        </ul>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.name.$invalid && answerForm.name.$dirty }">
+                    <label>
+                        Name:
+                        <input ng-pattern="username"  class="form-control" ng-model='createAnswer.name' name ="name" type='text' required autofocus>
+                    </label>
+                </div>
+                <div ng-messages="answerForm.email.$error" ng-if="answerForm.name.$dirty">
+                    <div ng-message="required"></div>
+                    <div ng-message="pattern">Please, enter valid email</div>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.email.$invalid && answerForm.email.$dirty }">
+                    <label>
+                        E-mail:
+                        <input ng-pattern="useremail"  class="form-control" ng-model='createAnswer.email' name="email" type='email' required>
+                    </label>
+                </div>
+                <div ng-messages="answerForm.baseurl.$error" ng-if="answerForm.name.$dirty">
+                    <div ng-message="required"></div>
+                    <div ng-message="url">Please, enter valid url</div>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.baseurl.$invalid && answerForm.baseurl.$dirty }">
+                    <label>
+                        Homepage:
+                        <input type="url"  class="form-control" name="baseurl" ng-model="createAnswer.baseurl">
+                    </label>
+                </div>
+                <div ng-messages="answerForm.text.$error" ng-if="answerForm.name.$dirty">
+                    <div ng-message="required"></div>
+                    <div ng-message="pattern">Please, type your comment</div>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty }">
+                    <label>
+                        Comment:
+                        <textarea ng-pattern="usercomment"  class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
+                    </label>
+                </div>
+                <div>
+                    <button ng-disabled="answerForm.$invalid" class=" btn btn-success"  type='submit'> Add answer </button>
+                    <button  ng-click="cancelAnswer()" ng-show="comment.id === createAnswer.id" type="button" class="btn btn-warning glyphicon glyphicon-remove"></button>
+                </div>
+            </form>
+        </div>
         <div id="pagination" class="row">
             <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="goToFirstPage()">Start</button>
             <button class="btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="pageBack()">Back</button>
@@ -62,11 +71,11 @@
             <button class="btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="pageForward()">Next</button>
             <button class="btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="goToLastPage()">End</button>
         </div>
-        <form method="post" name="commentForm" ng-submit="addComment()"   role="form">
+        <form method="post" name="commentForm" ng-submit="addComment()" role="form">
             <legend>
                 Your comment
             </legend>
-            <div class="col-sm-10 ">
+            <div class="col-sm-10">
                 <div ng-class="{ 'alert': flash, 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
             </div>
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.name.$invalid && commentForm.name.$dirty }">
@@ -81,10 +90,10 @@
                     <input ng-pattern="useremail" watch-change="checkEmail()" class="form-control" ng-model='createComment.email' name="email" type='email' required>
                 </label>
             </div>
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.baseurl.$invalid && commentForm.baseurl.$dirty }">
                 <label>
                     Homepage:
-                    <input ng-pattern="userurl"  class="form-control" name="baseurl" ng-model="createComment.baseurl">
+                    <input type="url"  class="form-control" name="baseurl" ng-model="createComment.baseurl">
                 </label>
             </div>
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
@@ -98,5 +107,5 @@
                 </button>
             </div>
         </form>
-     </div>
+    </div>
 </div>

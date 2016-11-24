@@ -1,4 +1,4 @@
 (function() {
-    angular.module('com', ["ngRoute"]);
+    angular.module('com', ["ngRoute", 'ngMessages']);
 })();
 
