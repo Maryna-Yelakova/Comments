@@ -36,6 +36,13 @@ footer {
 .tab6 {
     margin-left: 200px;
 }
+.sorting {
+    display: inline-table;
+    margin-left: 20px;
+}
+hr {
+    margin:20px;
+}
 
 
 

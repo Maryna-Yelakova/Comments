@@ -34,11 +34,18 @@ var router = {
                 res.status(500).send(error);
             });
         });
-        
+        app.get(apiPreff + "/sortedcomments/sortby/:sortparam/orderby/:arrow/showpage/:page", function (req, res) {
+            comments.getSortComments(req.params.sortparam,req.params.arrow,req.params.page).then(function (data) {
+                // console.log(req.params);
+                res.status(200).send(data);
+            }).catch(function (error) {
+                res.status(500).send(error);
+            });
+        });
+
         app.get('*', function (req, res) {
             res.status(200).sendFile(path.resolve('frontend/app/index.html'));
         });
-
     }
 };
 module.exports = router;

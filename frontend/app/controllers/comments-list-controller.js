@@ -27,8 +27,13 @@
             }
         };
 
-        $scope.getCommentsByPage = function(page){
-            return commentsService.getComments(page);
+        $scope.getCommentsByPage = function(){
+            if ($scope.reverseSort){
+                var arrow = 'desc';
+            }else{
+                arrow = 'asc';
+            }
+            return commentsService.getSortedComments($scope.sortparam,arrow,$scope.currentPage);
         };
 
         $scope.firstPage = function() {
@@ -42,25 +47,25 @@
         };
         $scope.pageBack = function() {
             $scope.currentPage = $scope.currentPage - 1;
-            $scope.getCommentsByPage($scope.currentPage).then(function(response){
+            $scope.getCommentsByPage().then(function(response){
                 $scope.comments = response.data;
             });
         };
         $scope.pageForward = function() {
             $scope.currentPage = $scope.currentPage + 1;
-            $scope.getCommentsByPage($scope.currentPage).then(function(response){
+            $scope.getCommentsByPage().then(function(response){
                 $scope.comments = response.data;
             });
         };
         $scope.goToFirstPage = function(){
             $scope.currentPage = 1;
-            $scope.getCommentsByPage($scope.currentPage).then(function(response){
+            $scope.getCommentsByPage().then(function(response){
                 $scope.comments = response.data;
             });
         };
         $scope.goToLastPage = function(){
             $scope.currentPage = $scope.lastPageNum;
-            $scope.getCommentsByPage($scope.currentPage).then(function(response){
+            $scope.getCommentsByPage().then(function(response){
                 $scope.comments = response.data;
             });
         };
@@ -68,7 +73,7 @@
         $scope.addComment = function(){
             var newComment = $scope.createComment;
             commentsService.saveComment(newComment).then(function () {
-                $scope.getCommentsByPage($scope.currentPage).then(function(response){
+                $scope.getCommentsByPage().then(function(response){
                     $scope.comments = response.data;
                     $scope.updateCommentsCount();
                     $scope.createComment={};
@@ -99,20 +104,36 @@
         $scope.addAnswer = function (parrentId){
             var newComment = $scope.createAnswer;
             commentsService.addEnclosedComments(parrentId,newComment).then(function(){
-                $scope.getCommentsByPage($scope.currentPage).then(function(response){
+                $scope.getCommentsByPage().then(function(response){
                     $scope.comments = response.data;
                     $scope.updateCommentsCount();
                     $scope.createAnswer = {};
-                    $scope.commentForm.$setPristine();
+                    $scope.answerForm.$setPristine();
                     
                 });
             })
         };
+        $scope.sortComments = function (sortparam){
+            if (sortparam === $scope.sortparam){
+                $scope.reverseSort =!$scope.reverseSort;
+            }else{
+                $scope.sortparam = sortparam;
+            }
+            $scope.currentPage = 1;
+            $scope.getCommentsByPage().then(function(response) {
+                $scope.comments = response.data;
+                $scope.updateCommentsCount();
+            });
+        };
+        
         $scope.comments = commentList.data;
         $scope.createComment = {};
         $scope.numberComments = numberOfComments.data[0].count;
         $scope.currentPage = 1;
         $scope.commentsPerPage = 5;
+        $scope.reverseSort = false;
+        $scope.sortparams = 'date';
         $scope.updateLastPageNum();
+
     }
 })();

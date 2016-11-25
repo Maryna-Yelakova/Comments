@@ -3,15 +3,28 @@
         <h3>
             {{comments.length}} Comments
         </h3>
+        <div class="sorting"><strong>Sort by:</strong>
+            <div class="sorting" ng-click="sortComments('name')"> user name
+                <div  class='glyphicon' ng-class="(sortparam==='name')? reverseSort ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down': '' "></div>
+            </div>
+            <div class="sorting" ng-click="sortComments('email')" > user email
+                <div   class='glyphicon' ng-class="(sortparam==='email')? reverseSort ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down': '' "></div>
+            </div>
+            <div class="sorting" ng-click="sortComments('date')"> date
+                <div  class='glyphicon' ng-class="(sortparam==='date')? reverseSort ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down': '' "></div>
+            </div>
+        </div>
+        <hr />
         <div ng-class="{'tab1':comment.array_length === 1,'tab2': comment.array_length === 2,
                         'tab3':comment.array_length === 3,'tab4':comment.array_length === 4,
                         'tab5':comment.array_length === 5,'tab6':comment.array_length >= 6}" ng-repeat="comment in comments track by $index">
             {{comment.name}}
+            <br />
             {{comment.email}}
-            <br/>
+            <br />
             {{comment.comment}}
             {{comment.date | date : format : timezone}}
-            <br/>
+            <br />
             <button class="btn btn-success btn-xs"  ng-click="showAnswerForm(comment.id)"> Add answer
             </button>
             <form  ng-show="comment.id === createAnswer.id" method="post" name="answerForm" ng-submit="addAnswer(comment.id)"   role="form">
