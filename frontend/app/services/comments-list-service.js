@@ -13,9 +13,10 @@
         };
         this.addEnclosedComments = function(id,data){
             return mainApiService.post('answer/' + id, data)
+        };
+        this.getSortedComments = function(sortparam,arrow,page){
+            return mainApiService.get('sortedcomments/sortby/' + sortparam +'/orderby/' + arrow + '/showpage/' + page);
         }
-
-
     }
     commentsService.$inject = ["com.mainApiService"];
 })();
