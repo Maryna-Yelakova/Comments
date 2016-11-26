@@ -97,6 +97,7 @@
         };
         $scope.cancelAnswer = function(){
             $scope.createAnswer = {id: -1};
+
         };
         $scope.showAnswerForm = function (commentId){
             $scope.createAnswer = {id:commentId};
@@ -108,8 +109,6 @@
                     $scope.comments = response.data;
                     $scope.updateCommentsCount();
                     $scope.createAnswer = {};
-                    $scope.answerForm.$setPristine();
-                    
                 });
             })
         };
@@ -125,15 +124,15 @@
                 $scope.updateCommentsCount();
             });
         };
-        
         $scope.comments = commentList.data;
         $scope.createComment = {};
         $scope.numberComments = numberOfComments.data[0].count;
         $scope.currentPage = 1;
         $scope.commentsPerPage = 5;
         $scope.reverseSort = false;
-        $scope.sortparams = 'date';
+        $scope.sortparam = 'date';
         $scope.updateLastPageNum();
+
 
     }
 })();
