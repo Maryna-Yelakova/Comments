@@ -74,7 +74,6 @@ var comments = function() {
             'comment, array_length(string_to_array(comments.path::text,\'.\'), 1), tmptable.path, ord FROM comments LEFT JOIN tmptable\n\ '+
         'ON (string_to_array(comments.path::text, \'.\')::integer[])[1] = tmptable.path::text::integer\n\ '+
         'ORDER BY ord ' + arrow  + ', string_to_array(comments.path::text,\'.\')::integer[] ASC offset ' + selectedPage + ' limit ' + commentsOnPage +';';
-        console.log(querycommand);
         return db.query(querycommand);
     }
 };

@@ -23,6 +23,7 @@
             {{comment.email}}
             <br />
             {{comment.comment}}
+            <br />
             {{comment.date | date : format : timezone}}
             <br />
             <button class="btn btn-success btn-xs"  ng-click="showAnswerForm(comment.id)"> Add answer
