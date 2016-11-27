@@ -71,15 +71,26 @@
         };
 
         $scope.addComment = function(){
-            var newComment = $scope.createComment;
-            commentsService.saveComment(newComment).then(function () {
-                $scope.getCommentsByPage().then(function(response){
-                    $scope.comments = response.data;
-                    $scope.updateCommentsCount();
-                    $scope.createComment={};
-                    $scope.commentForm.$setPristine();
+            if(angular.isObject($scope.createComment.attachment)){
+                commentsService.saveCommentWithFile($scope.createComment).then(function () {
+                    $scope.getCommentsByPage().then(function(response){
+                        $scope.comments = response.data;
+                        $scope.updateCommentsCount();
+                        $scope.createComment={};
+                        $("#media").val('');
+                        $scope.commentForm.$setPristine();
+                    });
                 });
-            });
+            }else{
+                commentsService.saveComment($scope.createComment).then(function () {
+                    $scope.getCommentsByPage().then(function(response){
+                        $scope.comments = response.data;
+                        $scope.updateCommentsCount();
+                        $scope.createComment={};
+                        $scope.commentForm.$setPristine();
+                    });
+                });
+            }
         };
         $scope.updateCommentsCount = function () {
             commentsService.getCommentsNumber().then(function(response){
@@ -124,6 +135,7 @@
                 $scope.updateCommentsCount();
             });
         };
+        $scope.angular = angular;
         $scope.comments = commentList.data;
         $scope.createComment = {};
         $scope.numberComments = numberOfComments.data[0].count;

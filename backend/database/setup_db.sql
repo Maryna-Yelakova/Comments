@@ -11,6 +11,7 @@ create table "comments"(
   "baseurl" varchar,
   "comment" varchar not null,
   "ip" varchar,
-  "browser" varchar
+  "browser" varchar,
+  "attachment" varchar
 );
 
