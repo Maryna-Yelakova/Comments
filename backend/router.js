@@ -1,7 +1,7 @@
 var comments = new(require("./database/comments.js"));
 var apiPreff = "/api";
 var path = require('path');
-// var validate = new(require("./validate"));
+var validate = new(require("./database/validate"));
 var multer = require("multer");
 var mime = require("mime-types");
 var commentStorage = multer.diskStorage({

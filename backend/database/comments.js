@@ -4,7 +4,7 @@ var comments = function() {
         var commentsOnPage = 5;
          var selectedPage = (page-1)*commentsOnPage;
             return db.query('select \"id\",\"name\",\"email\",\"date\",\"baseurl\",\ ' +
-                '\"comment\", array_length(string_to_array(path::text,\'.\'), 1) from comments order by string_to_array(path::text,\'.\')::integer[] offset ' + selectedPage + ' limit ' + commentsOnPage +';');
+                '\"comment\",\"attachment\", array_length(string_to_array(path::text,\'.\'), 1) from comments order by string_to_array(path::text,\'.\')::integer[] offset ' + selectedPage + ' limit ' + commentsOnPage +';');
      };
     this.saveComment = function(newComment){
         var querytext = 'DO LANGUAGE plpgsql $$\n\ ' +
@@ -73,7 +73,7 @@ var comments = function() {
         var querycommand = 'WITH tmptable AS (SELECT ' +  sortparam + ' as ord, path FROM comments\n\ '+
             '\t\t\t\tWHERE array_length(string_to_array(path::text, \'.\'),1)=1)\n\ '+
         'SELECT  id, name, email, date, baseurl, ' +
-            'comment, array_length(string_to_array(comments.path::text,\'.\'), 1), tmptable.path, ord FROM comments LEFT JOIN tmptable\n\ '+
+            'comment, attachment, array_length(string_to_array(comments.path::text,\'.\'), 1), tmptable.path, ord FROM comments LEFT JOIN tmptable\n\ '+
         'ON (string_to_array(comments.path::text, \'.\')::integer[])[1] = tmptable.path::text::integer\n\ '+
         'ORDER BY ord ' + arrow  + ', string_to_array(comments.path::text,\'.\')::integer[] ASC offset ' + selectedPage + ' limit ' + commentsOnPage +';';
         return db.query(querycommand);

@@ -23,7 +23,10 @@
             {{comment.email}}
             <br />
             {{comment.comment}}
-            <!--<img ng-src="{{comment.attachment}}" />-->
+            <img ng-if="comment.attachment" resize  src="./attachment/{{comment.attachment}}" />
+            <!--<div>-->
+                <!--<a  class="glyphicon glyphicon-file"   href="./attachment/{{comment.attachment}}"> </a>-->
+            <!--</div>-->
             <br />
             {{comment.date | date : format : timezone}}
             <br />
@@ -117,9 +120,8 @@
                     <textarea ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
                 </label>
             </div>
-            <input type="file" id="media" file-model="createComment.attachment" >
-            <!--<input type="file" id="media" file-model="createComment.attachment" resize-max-height="320"-->
-                   <!--resize-max-width="240">-->
+            <!--<input type="file" id="media" file-model="createComment.attachment" >-->
+            <input type="file" id="media" file-model="createComment.attachment">
             <div>
                 <button ng-disabled="commentForm.$invalid" class=" btn btn-success"  type='submit'> Add comment
                 </button>
