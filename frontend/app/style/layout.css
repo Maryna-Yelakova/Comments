@@ -46,6 +46,8 @@ hr {
 #media {
     margin: 20px;
 }
-
+#picture{
+    display:none;
+}
 
 
