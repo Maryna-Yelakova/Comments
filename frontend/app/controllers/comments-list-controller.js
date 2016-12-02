@@ -132,21 +132,38 @@
 
         $scope.addComment = function(){
             if(angular.isObject($scope.createComment.attachment)){
-                var patt = /^image\/.*/g;
-                $scope.fileRead($scope.createComment.attachment).then(function(url){
-                    $scope.loadImage(url).then(function(img){
-                        $scope.createComment.attachment = $scope.dataURItoBlob($scope.resizeImage(img,$scope.createComment.attachment.type));
-                        commentsService.saveCommentWithFile($scope.createComment).then(function () {
-                            $scope.getCommentsByPage().then(function(response){
-                                $scope.comments = response.data;
-                                $scope.updateCommentsCount();
-                                $scope.createComment={};
-                                $("#media").val('');
-                                $scope.commentForm.$setPristine();
+                //var patt = /^image\/.*/g;
+                var patt = /^image\/(png|jpeg)$/g;
+                console.log($scope.createComment.attachment.type);
+                if(patt.test($scope.createComment.attachment.type)){
+                    $scope.fileRead($scope.createComment.attachment).then(function(url){
+                        $scope.loadImage(url).then(function(img){
+                            console.log(img);
+                            $scope.createComment.attachment = $scope.dataURItoBlob($scope.resizeImage(img,$scope.createComment.attachment.type));
+                            commentsService.saveCommentWithFile($scope.createComment).then(function () {
+                                $scope.getCommentsByPage().then(function(response){
+                                    console.log(response);
+                                    $scope.comments = response.data;
+                                    $scope.updateCommentsCount();
+                                    $scope.createComment={};
+                                    $("#media").val('');
+                                    $scope.commentForm.$setPristine();
+                                });
                             });
+                        })
+                    });
+                }else{
+                    commentsService.saveCommentWithFile($scope.createComment).then(function () {
+                        $scope.getCommentsByPage().then(function(response){
+                            $scope.comments = response.data;
+                            $scope.updateCommentsCount();
+                            $scope.createComment={};
+                            $("#media").val('');
+                            $scope.commentForm.$setPristine();
                         });
-                    })
-                });
+                    });
+                }
+
             }else{
                 commentsService.saveComment($scope.createComment).then(function () {
                     $scope.getCommentsByPage().then(function(response){
@@ -207,15 +224,9 @@
             return patt.test(fileName);
         };
         $scope.isPicture = function(fileName){
-            var patt = /.*\.jpeg/g;
+            var patt = /.*\.(jpeg|png|gif)$/g;
             return patt.test(fileName);
         };
-        $scope.config = {
-            width: 240,
-            height: 320,
-            quality: 1
-        };
-
  
         $scope.angular = angular;
         $scope.comments = commentList.data;
