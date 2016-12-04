@@ -25,6 +25,7 @@
     "mime-types": "^2.1.13",
     "multer": "^1.2.0",
     "pg-promise": "^5.3.5",
+    "request-ip": "^1.2.3",
     "serve-static": "^1.11.1"
   }
 }
