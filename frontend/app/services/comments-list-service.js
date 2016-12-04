@@ -16,7 +16,18 @@
         };
         this.getSortedComments = function(sortparam,arrow,page){
             return mainApiService.get('sortedcomments/sortby/' + sortparam +'/orderby/' + arrow + '/showpage/' + page);
-        }
+        };
+        this.saveCommentWithFile = function(comment) {
+            return mainApiService.post('commentwithfile', comment, {
+                transformRequest: angular.indentity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            }).catch(function(error) {
+                console.log(error);
+            });
+        };
+
     }
     commentsService.$inject = ["com.mainApiService"];
 })();

@@ -11,8 +11,21 @@
                 url: baseUrl + url + '/'
             });
         };
-        this.post = function (url,data){
-            return $http.post(baseUrl + url + '/', data);
+        this.post = function (url,data,config){
+            if (config) {
+                var fd = new FormData();
+                for (var key in data) {
+                    fd.append(key, data[key]);
+                }
+                return $http.post(baseUrl + url + '/', fd, {
+                    transformRequest: angular.indentity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                });
+            } else {
+                return $http.post(baseUrl + url + '/', data);
+            }
         }
     }
     mainApiService.$inject = ["$http", "baseUrl"];
