@@ -2,7 +2,7 @@ var db = require("./connection");
 var comments = function() {
     this.getComments = function (page) {
         var commentsOnPage = 5;
-         var selectedPage = (page-1)*commentsOnPage;
+        var selectedPage = (page-1)*commentsOnPage;
             return db.query('select \"id\",\"name\",\"email\",\"date\",\"baseurl\",\ ' +
                 '\"comment\",\"attachment\", array_length(string_to_array(path::text,\'.\'), 1) from comments order by string_to_array(path::text,\'.\')::integer[] offset ' + selectedPage + ' limit ' + commentsOnPage +';');
      };

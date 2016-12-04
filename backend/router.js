@@ -20,6 +20,7 @@ var commentStorage = multer.diskStorage({
 var uploadFile = multer({
     storage: commentStorage
 });
+
 var router = {
     init: function init(app) {
         app.get(apiPreff + "/comments/:page", function (req, res) {
@@ -31,7 +32,7 @@ var router = {
         });
 
         app.post(apiPreff + "/comment", function (req, res) {
-            comments.saveComment(Object.assign({}, req.body, req.params)).then(function (data) {
+            comments.saveComment(Object.assign({}, req.body, {ip:req.connection.remoteAddress}, req.params)).then(function (data) {
                 res.status(200).send(data);
             }).catch(function (error) {
                 res.status(500).send(error);
@@ -62,7 +63,7 @@ var router = {
         app.post(apiPreff + "/commentwithfile", uploadFile.any(), function(req, res) {
             comments.saveComment(Object.assign({
                 attachment: req.files[0].filename
-            }, req.body, req.params)).then(function() {
+            }, req.body, req.params,{ip:req.connection.remoteAddress})).then(function() {
                 res.status(200).end();
             }).catch(function(error) {
                 res.status(500).send(error);
