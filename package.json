@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"All is ok, no test specified\" && exit 0",
     "start": "node backend/index.js",
-    "postinstall": "bower install"
+    "postinstall": "bower install && mkdir frontend/app/attachment"
   },
   "repository": {
     "type": "git",
