@@ -52,7 +52,10 @@ var router = {
             });
         });
         app.post(apiPreff + "/answer/:id", function(req, res) {
-            comments.addEnclosedComments(Object.assign({}, req.body, req.params)).then(function(data) {
+            var agent = useragent.parse(req.headers['user-agent']);
+            agent.browser = agent.family + ' ' + agent.major + '.' + agent.minor + '.' +agent.patch;
+            var clientIp = requestIp.getClientIp(req);
+            comments.addEnclosedComments(Object.assign({}, req.body,{ip:clientIp,browser:agent.browser}, req.params)).then(function(data) {
                 res.status(200).send(data);
             }).catch(function (error) {
                 res.status(500).send(error);
@@ -77,6 +80,19 @@ var router = {
                 res.status(500).send(error);
             });
         });
+        app.post(apiPreff + "/answerwithfile/:id", uploadFile.any(), function(req, res) {
+            var agent = useragent.parse(req.headers['user-agent']);
+            agent.browser = agent.family + ' ' + agent.major + '.' + agent.minor + '.' +agent.patch;
+            var clientIp = requestIp.getClientIp(req);
+            comments.addEnclosedComments(Object.assign({
+                attachment: req.files[0].filename
+            }, req.body, req.params,{ip:clientIp,browser:agent.browser})).then(function() {
+                res.status(200).end();
+            }).catch(function(error) {
+                res.status(500).send(error);
+            });
+        });
+        
 
         app.get('*', function (req, res) {
             res.status(200).sendFile(path.resolve('frontend/app/index.html'));

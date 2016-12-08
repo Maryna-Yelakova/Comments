@@ -27,6 +27,16 @@
                 console.log(error);
             });
         };
+        this.addEnclosedCommentsWithFile = function(id,answer) {
+            return mainApiService.post('answerwithfile/' + id, answer, {
+                transformRequest: angular.indentity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            }).catch(function(error) {
+                console.log(error);
+            });
+        };
 
     }
     commentsService.$inject = ["com.mainApiService"];

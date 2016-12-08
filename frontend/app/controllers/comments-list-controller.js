@@ -1,7 +1,7 @@
 (function() {
     'use strict';     
-    angular.module('com').controller('com.commentsCtrl',['$scope','flashService','commentList','numberOfComments','comments-list-service','$q', commentsCtrl]);
-    function commentsCtrl($scope, flashService,commentList,numberOfComments,commentsService,$q){
+    angular.module('com').controller('com.commentsCtrl',['$scope','flashService','commentList','numberOfComments','comments-list-service','$q','$sanitize','$sce', commentsCtrl]);
+    function commentsCtrl($scope, flashService,commentList,numberOfComments,commentsService,$q,$sanitize,$sce){
         $scope.username = /^[a-zA-Z0-9\s]{3,50}$/;
         $scope.useremail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         $scope.usercomment = /\w+/;
@@ -84,7 +84,7 @@
             return new Blob([ia], {type:mimeString});
         };
 
-        $scope.resizeImage = function (origImage,type) {
+        $scope.resizeImage = function (origImage,type,canvas) {
             var maxHeight = 320;
             var maxWidth = 240;
             var height = origImage.height;
@@ -102,13 +102,14 @@
                 }
             }
 
-            $scope.canvas.width = width;
-            $scope.canvas.height = height;
-            $scope.ctx = $scope.canvas.getContext('2d');
-            $scope.canvas.ctx = $scope.ctx;
-            $scope.ctx.drawImage(origImage, 0, 0, width, height);
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext('2d');
+            canvas.ctx = ctx;
+            ctx.drawImage(origImage, 0, 0, width, height);
 
-            return $scope.canvas.toDataURL(type, 1);
+            return canvas.toDataURL(type, 1);
+            
         };
 
         $scope.fileRead  = function(file) {
@@ -132,17 +133,13 @@
 
         $scope.addComment = function(){
             if(angular.isObject($scope.createComment.attachment)){
-                //var patt = /^image\/.*/g;
                 var patt = /^image\/(png|jpeg)$/g;
-                console.log($scope.createComment.attachment.type);
                 if(patt.test($scope.createComment.attachment.type)){
                     $scope.fileRead($scope.createComment.attachment).then(function(url){
                         $scope.loadImage(url).then(function(img){
-                            console.log(img);
-                            $scope.createComment.attachment = $scope.dataURItoBlob($scope.resizeImage(img,$scope.createComment.attachment.type));
+                            $scope.createComment.attachment = $scope.dataURItoBlob($scope.resizeImage(img,$scope.createComment.attachment.type,$scope.canvas));
                             commentsService.saveCommentWithFile($scope.createComment).then(function () {
                                 $scope.getCommentsByPage().then(function(response){
-                                    console.log(response);
                                     $scope.comments = response.data;
                                     $scope.updateCommentsCount();
                                     $scope.createComment={};
@@ -197,16 +194,46 @@
         $scope.showAnswerForm = function (commentId){
             $scope.createAnswer = {id:commentId};
         };
+        
         $scope.addAnswer = function (parrentId){
-            var newComment = $scope.createAnswer;
-            commentsService.addEnclosedComments(parrentId,newComment).then(function(){
-                $scope.getCommentsByPage().then(function(response){
-                    $scope.comments = response.data;
-                    $scope.updateCommentsCount();
-                    $scope.createAnswer = {};
-                });
-            })
+            if(angular.isObject($scope.createAnswer.attachment)){
+                var patt = /^image\/(png|jpeg)$/g;
+                if(patt.test($scope.createAnswer.attachment.type)){
+                    $scope.fileRead($scope.createAnswer.attachment).then(function(url){
+                        $scope.loadImage(url).then(function(img){
+                            $scope.createAnswer.attachment = $scope.dataURItoBlob($scope.resizeImage(img,$scope.createAnswer.attachment.type,$scope.canvasAnswer));
+                            commentsService.addEnclosedCommentsWithFile(parrentId,$scope.createAnswer).then(function () {
+                                $scope.getCommentsByPage().then(function(response){
+                                    $scope.comments = response.data;
+                                    $scope.updateCommentsCount();
+                                    $scope.createAnswer={};
+                                    $("#ansmedia").val('');
+                                });
+                            });
+                        })
+                    });
+                }else{
+                    commentsService.addEnclosedComments(parrentId,$scope.createAnswer).then(function () {
+                        $scope.getCommentsByPage().then(function(response){
+                            $scope.comments = response.data;
+                            $scope.updateCommentsCount();
+                            $scope.createAnswer={};
+                            $("#ansmedia").val('');
+                        });
+                    });
+                }
+
+            }else{
+                commentsService.addEnclosedComments(parrentId,$scope.createAnswer).then(function(){
+                    $scope.getCommentsByPage().then(function(response){
+                        $scope.comments = response.data;
+                        $scope.updateCommentsCount();
+                        $scope.createAnswer = {};
+                    });
+                })
+            }
         };
+        
         $scope.sortComments = function (sortparam){
             if (sortparam === $scope.sortparam){
                 $scope.reverseSort =!$scope.reverseSort;
@@ -227,7 +254,8 @@
             var patt = /.*\.(jpeg|png|gif)$/g;
             return patt.test(fileName);
         };
- 
+
+        
         $scope.angular = angular;
         $scope.comments = commentList.data;
         $scope.createComment = {};
@@ -238,5 +266,7 @@
         $scope.sortparam = 'date';
         $scope.updateLastPageNum();
         $scope.canvas = document.getElementById('picture');
+        $scope.canvasAnswer = document.getElementById('anspicture');
+
     }
 })();
