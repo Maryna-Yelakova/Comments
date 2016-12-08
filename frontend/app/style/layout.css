@@ -1,40 +1,59 @@
 body {
     font-family: 'DigitalSansEFMedium';
     font-size: 16px;
-    background-image: url("../img/letters.jpg");
-    /*background-color: #5bc0de;*/
-}
+    background-image: url("../img/lavender.jpg");
+ }
 header {
     color: white;
     font-family: "DigitalSansEFMedium";
 }
-form, h3, ul {
-    margin-left: 20px;
-    margin-bottom: 20px;
+form, h3, ul, .comment {
+    padding:20px;
+    margin:0 20px 30px 20px;
 }
 footer {
     color: white;
 }
+button{
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: -20px 0;
+    box-shadow: 0 5px 10px -4px #000;
+    transition: all 0.4s;
+}
+button:hover{
+    box-shadow: 0 0 10px -4px #000;
+}
 #pagination {
     text-align: center;
 }
+.tab1,.tab2,.tab3,.tab4,.tab5,.tab6{
+    border-radius: 10px;
+}
 .tab1 {
     margin-left: 20px;
+    background-color: lavender;
 }
 .tab2 {
-    margin-left: 60px;
+    margin-left: 80px;
+    background-color: lavenderblush;
 }
 .tab3 {
-    margin-left: 100px;
+    margin-left: 160px;
+    background-color: lightcyan;
 }
 .tab4 {
-    margin-left: 140px;
+    margin-left: 220px;
+    background-color: lemonchiffon;
 }
 .tab5 {
-    margin-left: 160px;
+    margin-left: 280px;
+    background-color: lightblue;
 }
 .tab6 {
-    margin-left: 200px;
+    margin-left: 360px;
+    background-color: lightgoldenrodyellow;
 }
 .sorting {
     display: inline-table;
@@ -43,11 +62,15 @@ footer {
 hr {
     margin:20px;
 }
-#media {
+#media,#ansmedia {
     margin: 20px;
 }
-#picture{
+#picture,#anspicture{
     display:none;
 }
-
-
+.preview{
+    font-weight: normal;
+}
+.comment{
+    overflow: auto;
+}

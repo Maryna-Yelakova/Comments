@@ -15,22 +15,22 @@
             </div>
         </div>
         <hr />
-        <div ng-class="{'tab1':comment.array_length === 1,'tab2': comment.array_length === 2,
+        <div class="comment"  ng-class="{'tab1':comment.array_length === 1,'tab2': comment.array_length === 2,
                         'tab3':comment.array_length === 3,'tab4':comment.array_length === 4,
-                        'tab5':comment.array_length === 5,'tab6':comment.array_length >= 6}" ng-repeat="comment in comments track by $index">
+                        'tab5':comment.array_length === 5,'tab6':comment.array_length >= 6}" ng-repeat="comment in comments track by $index" >
             {{comment.name}}
             <br />
             {{comment.email}}
             <br />
-            {{comment.comment}}
-            <br />
+            <div class="comment-text" ng-bind-html="comment.comment"></div>
             <img ng-if="isPicture(comment.attachment)"
-                 src="./attachment/{{comment.attachment}}"  />
+                 src="./attachment/{{comment.attachment}}" />
             <div>
                 <a ng-if="isTxt(comment.attachment)"  target="_blank" class="glyphicon glyphicon-file"   href="./attachment/{{comment.attachment}}"> </a>
             </div>
-            <br />
-            {{comment.date | date : format : timezone}}
+            <div>
+                {{comment.date | date : format : timezone}}
+            </div>
             <br />
             <button class="btn btn-success btn-xs"  ng-click="showAnswerForm(comment.id)"> Add answer
             </button>
@@ -76,8 +76,11 @@
                     <label>
                         Comment:
                         <textarea ng-pattern="usercomment"  class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
+                        <div class="preview" ng-bind-html="createAnswer.text"></div>
                     </label>
                 </div>
+
+                <input type="file" id="ansmedia" file-model="createAnswer.attachment">
                 <div>
                     <button ng-disabled="answerForm.$invalid" class=" btn btn-success"  type='submit'> Add answer </button>
                     <button  ng-click="cancelAnswer()" ng-show="comment.id === createAnswer.id" type="button" class="btn btn-warning glyphicon glyphicon-remove"></button>
@@ -119,11 +122,13 @@
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
                 <label>
                     Comment:
-                    <textarea ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
+                    <textarea  ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
+                    <div class="preview" ng-bind-html="createComment.text"></div>
                 </label>
             </div>
             <canvas id="picture"></canvas>
-            <input type="file" id="media" file-model="createComment.attachment">
+            <canvas id="anspicture"></canvas>
+            <input type="file" id="media"  file-model="createComment.attachment">
             <div>
                 <button ng-disabled="commentForm.$invalid" class=" btn btn-success"  type='submit'> Add comment
                 </button>

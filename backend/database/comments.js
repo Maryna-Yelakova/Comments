@@ -44,10 +44,10 @@ var comments = function() {
             '\t\tIF EXISTS (SELECT * FROM \"comments\" WHERE (\"path\" <@ ppath) AND (\"path\" <> ppath) limit 1)\n\ '+
             '\t\tTHEN\n\ ' +
                '\t\t\tINSERT INTO \"comments\" (\"name\",\"email\",\"date\",\"baseurl\",' +
-                '\"comment\",\"ip\",\"browser\",\"path\")\n\ ' +
+                '\"comment\",\"ip\",\"browser\",\"attachment\",\"path\")\n\ ' +
                 '\t\t\t\tVALUES (\'' + newComment.name + '\',\'' + newComment.email +
                   '\',now(),\''+  newComment.baseurl + '\',' +
-                  '\'' + newComment.text + '\',\'' + newComment.ip + '\',\'' + newComment.browse +'\','+
+                  '\'' + newComment.text + '\',\'' + newComment.ip + '\',\'' + newComment.browser + '\',\'' + newComment.attachment + '\','+
             '(ppath::text\n\ ' +
             '|| \'.\' || ((SELECT (string_to_array(path::text,\'.\')::integer[])['+
             '(array_length(string_to_array(ppath::text,\'.\'), 1) + 1)]\n\ '+
@@ -57,10 +57,10 @@ var comments = function() {
             '\t\t\t\t\t\tDESC LIMIT 1) + 1)::text)::ltree);\n\ '+
             '\t\tELSE\n\ '+
             '\t\t\tINSERT INTO \"comments\" (\"name\",\"email\",\"date\",\"baseurl\",' +
-            '\"comment\",\"ip\",\"browser\",\"path\")\n\ '+
+            '\"comment\",\"ip\",\"browser\",\"attachment\",\"path\")\n\ '+
             '\t\t\t\tVALUES (\'' + newComment.name + '\',\''+ newComment.email+
             '\',now(),\''+ newComment.baseurl + '\',' +
-            '\'' + newComment.text + '\',\'' + newComment.ip + '\',\'' + newComment.browser +'\','+
+            '\'' + newComment.text + '\',\'' + newComment.ip + '\',\'' + newComment.browser + '\',\'' + newComment.attachment + '\','+
             '(ppath::text ||'+ '\'.1\'' +')::ltree);\n\ '+
             '\t\tEND IF;\n\ '+
             '\tEND;\n\ '+
