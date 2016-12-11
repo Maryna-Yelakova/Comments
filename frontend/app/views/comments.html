@@ -75,7 +75,7 @@
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty }">
                     <label>
                         Comment:
-                        <textarea ng-pattern="usercomment"  class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
+                        <textarea ng-pattern="usercomment" ng-change="getSafeAnswer(createAnswer.text)" class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
                         <div class="preview" ng-bind-html="createAnswer.text"></div>
                     </label>
                 </div>
@@ -119,10 +119,10 @@
                     <input type="url"  class="form-control" name="baseurl" ng-model="createComment.baseurl">
                 </label>
             </div>
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty }">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty || createComment.hasTags}">
                 <label>
                     Comment:
-                    <textarea  ng-pattern="usercomment" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
+                    <textarea  ng-change="hasTagsInComment()" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
                     <div class="preview" ng-bind-html="createComment.text"></div>
                 </label>
             </div>
@@ -130,7 +130,7 @@
             <canvas id="anspicture"></canvas>
             <input type="file" id="media"  file-model="createComment.attachment">
             <div>
-                <button ng-disabled="commentForm.$invalid" class=" btn btn-success"  type='submit'> Add comment
+                <button ng-disabled="commentForm.$invalid || createComment.hasTags" class=" btn btn-success"  type='submit'> Add comment
                 </button>
             </div>
         </form>

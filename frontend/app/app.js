@@ -1,4 +1,4 @@
 (function() {
-    angular.module('com', ["ngRoute", 'ngMessages','file-model','ngSanitize']);
+    angular.module('com', ["ngRoute", 'ngMessages','file-model','ngSanitize'])
 })();
 
