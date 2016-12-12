@@ -74,3 +74,6 @@ hr {
 .comment{
     overflow: auto;
 }
+.tag-buttons{
+    margin-top: 20px;
+}

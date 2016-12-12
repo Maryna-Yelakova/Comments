@@ -1,10 +1,9 @@
 (function() {
     'use strict';     
-    angular.module('com').controller('com.commentsCtrl',['$scope','flashService','commentList','numberOfComments','comments-list-service','$q','$sanitize','$sce', commentsCtrl]);
-    function commentsCtrl($scope, flashService,commentList,numberOfComments,commentsService,$q,$sanitize,$sce){
+    angular.module('com').controller('com.commentsCtrl',['$scope','flashService','commentList','numberOfComments','comments-list-service','$q','$sanitize', commentsCtrl]);
+    function commentsCtrl($scope, flashService,commentList,numberOfComments,commentsService,$q,$sanitize){
         $scope.username = /^[a-zA-Z0-9\s]{3,50}$/;
         $scope.useremail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-        $scope.usercomment = /\w+/;
         $scope.checkName = function() {
             if ($scope.commentForm.name.$invalid) {
                 flashService.error('Only latin symbols and  numbers length between 3 and 50', false);
@@ -22,7 +21,10 @@
         $scope.checkText = function() {
             if ($scope.commentForm.text.$invalid) {
                 flashService.error('Please, type your comment', false);
-            } else {
+            }else if($scope.createComment.hasTags){
+                flashService.error('Tags other then the following are restricted:<a></a>,<strong></strong>,<i></i>,<code></code>', false);
+            }
+            else {
                 flashService.clearFlashMessage();
             }
         };
@@ -254,11 +256,38 @@
             var patt = /.*\.(jpeg|png|gif)$/g;
             return patt.test(fileName);
         };
+        $scope.hasTagsInComment = function(){
+            var patt = /<\/?(?!(a|strong>|code>|i>))[a-z][^>]*>/;
+            $scope.createComment.hasTags= patt.test($scope.createComment.text);
+        };
+        $scope.hasTagsInAnswer = function(){
+            var patt = /<\/?(?!(a|strong>|code>|i>))[a-z][^>]*>/;
+            $scope.createAnswer.hasTags= patt.test($scope.createAnswer.text);
+        };
+        $scope.formatCommentText = function(tag){
+            if (!$scope.createComment.text) {
+                var newText ="<" + tag + ">"  + "</" + tag + ">";
+                $scope.createComment.text = newText;
+            }else{
+                newText = $scope.createComment.text+"<" + tag + ">"  + "</" + tag + ">";
+                $scope.createComment.text = newText;
+            }
+        };
+        $scope.formatAnswerText = function(tag){
+            if (!$scope.createAnswer.text) {
+                var newText = "<" + tag + ">" + "</" + tag + ">";
+                $scope.createAnswer.text = newText;
+            }else{
+                newText = $scope.createAnswer.text + "<" + tag + ">"  + "</" + tag + ">";
+                $scope.createAnswer.text = newText;
+            }
+        };
 
-        
+
         $scope.angular = angular;
         $scope.comments = commentList.data;
         $scope.createComment = {};
+        $scope.createComment.hasTags = false;
         $scope.numberComments = numberOfComments.data[0].count;
         $scope.currentPage = 1;
         $scope.commentsPerPage = 5;
@@ -267,6 +296,7 @@
         $scope.updateLastPageNum();
         $scope.canvas = document.getElementById('picture');
         $scope.canvasAnswer = document.getElementById('anspicture');
+
 
     }
 })();
