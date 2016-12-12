@@ -72,6 +72,10 @@
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty|| createAnswer.hasTags }">
                     <label>
                         Comment:
+                        <div class="tag-buttons">
+                            <button class="btn btn-secondary btn-xs" type="button" ng-click="formatAnswerText('i')">[i]</button>
+                            <button class="btn btn-secondary  btn-xs" type="button" ng-click="formatAnswerText('strong')">[strong]</button>
+                        </div>
                         <textarea  ng-change="hasTagsInAnswer()" class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
                         <div class="preview" ng-bind-html="createAnswer.text"></div>
                     </label>
@@ -119,6 +123,11 @@
             <div class="form-group has-feedback" ng-class="{ 'has-error' : commentForm.text.$invalid && commentForm.text.$dirty || createComment.hasTags}">
                 <label>
                     Comment:
+                    <div class="tag-buttons">
+                        <button class="btn btn-secondary  btn-xs" type="button" ng-click="formatCommentText('i')">[i]</button>
+                        <button class="btn btn-secondary  btn-xs" type="button" ng-click="formatCommentText('strong')">[strong]</button>
+                    </div>
+
                     <textarea  ng-change="hasTagsInComment()" watch-change="checkText()" class="form-control" name="text" ng-model="createComment.text" required></textarea>
                     <div class="preview" ng-bind-html="createComment.text"></div>
                 </label>

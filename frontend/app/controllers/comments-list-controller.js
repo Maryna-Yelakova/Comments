@@ -264,6 +264,24 @@
             var patt = /<\/?(?!(a|strong>|code>|i>))[a-z][^>]*>/;
             $scope.createAnswer.hasTags= patt.test($scope.createAnswer.text);
         };
+        $scope.formatCommentText = function(tag){
+            if (!$scope.createComment.text) {
+                var newText ="<" + tag + ">"  + "</" + tag + ">";
+                $scope.createComment.text = newText;
+            }else{
+                newText = $scope.createComment.text+"<" + tag + ">"  + "</" + tag + ">";
+                $scope.createComment.text = newText;
+            }
+        };
+        $scope.formatAnswerText = function(tag){
+            if (!$scope.createAnswer.text) {
+                var newText = "<" + tag + ">" + "</" + tag + ">";
+                $scope.createAnswer.text = newText;
+            }else{
+                newText = $scope.createAnswer.text + "<" + tag + ">"  + "</" + tag + ">";
+                $scope.createAnswer.text = newText;
+            }
+        };
 
 
         $scope.angular = angular;
