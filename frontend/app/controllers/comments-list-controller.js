@@ -4,8 +4,6 @@
     function commentsCtrl($scope, flashService,commentList,numberOfComments,commentsService,$q,$sanitize){
         $scope.username = /^[a-zA-Z0-9\s]{3,50}$/;
         $scope.useremail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-        // $scope.usercomment =/<(?!(br|strong)\s*\/?)[^>]+>/;
-        // $scope.usercomment = /\w+/;
         $scope.checkName = function() {
             if ($scope.commentForm.name.$invalid) {
                 flashService.error('Only latin symbols and  numbers length between 3 and 50', false);
@@ -261,6 +259,10 @@
         $scope.hasTagsInComment = function(){
             var patt = /<\/?(?!(a|strong>|code>|i>))[a-z][^>]*>/;
             $scope.createComment.hasTags= patt.test($scope.createComment.text);
+        };
+        $scope.hasTagsInAnswer = function(){
+            var patt = /<\/?(?!(a|strong>|code>|i>))[a-z][^>]*>/;
+            $scope.createAnswer.hasTags= patt.test($scope.createAnswer.text);
         };
 
 

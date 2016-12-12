@@ -39,7 +39,6 @@
                     Your answer
                 </legend>
                 <div ng-messages="answerForm.name.$error" ng-if="answerForm.name.$dirty">
-                    <div ng-message="required"></div>
                     <div ng-message="pattern">Only latin symbols and  numbers length between 3 and 50</div>
                 </div>
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.name.$invalid && answerForm.name.$dirty }">
@@ -49,7 +48,6 @@
                     </label>
                 </div>
                 <div ng-messages="answerForm.email.$error" ng-if="answerForm.name.$dirty">
-                    <div ng-message="required"></div>
                     <div ng-message="pattern">Please, enter valid email</div>
                 </div>
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.email.$invalid && answerForm.email.$dirty }">
@@ -58,8 +56,7 @@
                         <input ng-pattern="useremail"  class="form-control" ng-model='createAnswer.email' name="email" type='email' required>
                     </label>
                 </div>
-                <div ng-messages="answerForm.baseurl.$error" ng-if="answerForm.name.$dirty">
-                    <div ng-message="required"></div>
+                <div ng-messages="answerForm.baseurl.$error" ng-if="answerForm.baseurl.$dirty">
                     <div ng-message="url">Please, enter valid url</div>
                 </div>
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.baseurl.$invalid && answerForm.baseurl.$dirty }">
@@ -68,21 +65,21 @@
                         <input type="url"  class="form-control" name="baseurl" ng-model="createAnswer.baseurl">
                     </label>
                 </div>
-                <div ng-messages="answerForm.text.$error" ng-if="answerForm.name.$dirty">
-                    <div ng-message="required"></div>
-                    <div ng-message="pattern">Please, type your comment</div>
+                <div ng-messages="answerForm.text.$error" ng-if="answerForm.name.$dirty || createAnswer.hasTags">
+                    <div ng-message="required">Please enter a value for this field.</div>
+                    <!--<div ng-message="createAnswer.hasTags">Please, type your comment</div>-->
                 </div>
-                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty }">
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : answerForm.text.$invalid && answerForm.text.$dirty|| createAnswer.hasTags }">
                     <label>
                         Comment:
-                        <textarea ng-pattern="usercomment" ng-change="getSafeAnswer(createAnswer.text)" class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
+                        <textarea  ng-change="hasTagsInAnswer()" class="form-control" name="text" ng-model="createAnswer.text" required></textarea>
                         <div class="preview" ng-bind-html="createAnswer.text"></div>
                     </label>
                 </div>
 
                 <input type="file" id="ansmedia" file-model="createAnswer.attachment">
                 <div>
-                    <button ng-disabled="answerForm.$invalid" class=" btn btn-success"  type='submit'> Add answer </button>
+                    <button ng-disabled="answerForm.$invalid || createAnswer.hasTags" class=" btn btn-success"  type='submit'> Add answer </button>
                     <button  ng-click="cancelAnswer()" ng-show="comment.id === createAnswer.id" type="button" class="btn btn-warning glyphicon glyphicon-remove"></button>
                 </div>
             </form>
